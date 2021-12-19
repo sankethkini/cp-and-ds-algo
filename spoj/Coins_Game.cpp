@@ -61,27 +61,37 @@ int main()
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
     // #endif 
-    ll t;
-    cin >> t;
-    for(int it=1;it<=t;it++) {
-         int cur;
-        cin>>cur;
-        if(cur==0)
+    int k,l,n;
+    cin>>k>>l>>n;
+    vector<int> nums(n,0);
+    int maxi=0;
+    for(int i=0;i<n;i++)
+    {
+        cin>>nums[i];
+        maxi=max(nums[i],maxi);
+    }
+    vector<bool> dp(maxi+1,0);
+    dp[0]=false;
+    for(int i=1;i<=maxi;i++)
+    {
+        bool j=true;
+        if(i-1>=0)
+            j=j&&dp[i-1];
+        if(i-k>=0)
+            j=j&&dp[i-k];
+        if(i-l>=0)
+            j=j&&dp[i-l];
+        dp[i]=!j;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(dp[nums[i]])
         {
-            cout<<1<<endl;
+            cout<<"A";
         }
-        for(int i=31;i>=0;i--)
+        else
         {
-            if(((1<<i)&cur)>0)
-            {
-                if((cur&(cur+1))==0)
-                {
-                    cout<<cur+1<<endl;
-                    break;
-                }
-                cout<<(int)pow(2,i)<<endl;
-                break;
-            }
+            cout<<"B";
         }
     }
     return 0;
